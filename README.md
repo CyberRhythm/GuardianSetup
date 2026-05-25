@@ -49,7 +49,7 @@
 ### روش ۱: کلون مستقیم
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/server-setup.git
+git clone https://github.com/GuardianSetup/server-setup.git
 cd server-setup
 chmod +x setup.sh
 sudo ./setup.sh
@@ -58,7 +58,7 @@ sudo ./setup.sh
 ### روش ۲: دانلود مستقیم
 
 ```bash
-curl -O https://raw.githubusercontent.com/YOUR_USERNAME/server-setup/main/setup.sh
+curl -O https://raw.githubusercontent.com/GuardianSetup/server-setup/main/setup.sh
 chmod +x setup.sh
 sudo ./setup.sh
 ```
@@ -292,5 +292,3 @@ tail -f logs/$(ls -t logs/ | head -1)
 MIT License - استفاده آزاد با ذکر منبع
 
 ---
-
-> ساخته شده با ❤️ برای مدیریت راحت‌تر سرور
