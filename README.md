@@ -1,52 +1,58 @@
-# 🛡️ اسکریپت مدیریت و امنیت سرور
+# 🛡️ Server Management & Security Script
 
-> اسکریپت شخصی Bash برای راه‌اندازی، آپدیت و سخت‌سازی امنیتی سرورهای Linux
+> A personal Bash script for setting up, updating, and hardening Linux servers.
 
----
-
-## 📋 فهرست مطالب
-
-- [ویژگی‌ها](#ویژگیها)
-- [پیش‌نیازها](#پیشنیازها)
-- [نصب و راه‌اندازی](#نصب-و-راهاندازی)
-- [نحوه استفاده](#نحوه-استفاده)
-- [ماژول‌ها و منوها](#ماژولها-و-منوها)
-- [وایت‌لیست پورت‌ها](#وایتلیست-پورتها)
-- [ساختار فایل‌ها](#ساختار-فایلها)
-- [نکات امنیتی](#نکات-امنیتی)
-- [پشتیبانی توزیع‌ها](#پشتیبانی-توزیعها)
+> 🚧 **This project is currently under active development.**
+> Features, security modules, compatibility, and overall functionality are continuously being improved.
 
 ---
 
-## ✨ ویژگی‌ها
+## 📋 Table of Contents
 
-| ویژگی | توضیح |
-|-------|--------|
-| 🔄 آپدیت کامل | آپدیت تمام پکیج‌ها و توزیع به صورت خودکار |
-| 🔍 اسکن سرور | شناسایی سرویس‌های نصب‌شده، پورت‌های فعال |
-| 🔌 وایت‌لیست پورت | اسکن پورت‌های فعال و ساخت خودکار وایت‌لیست |
-| 🔥 فایروال هوشمند | تنظیم UFW بر اساس پورت‌های فعال و وایت‌لیست |
-| 🛡️ سخت‌سازی SSH | غیرفعال‌سازی root login، محدود کردن تلاش‌ها |
-| 🚫 Fail2Ban | نصب و تنظیم خودکار برای مسدودسازی حملات |
-| 🦠 ClamAV | آنتی‌ویروس با اسکن روزانه خودکار |
-| 📊 Auditd | لاگ امنیتی تمام تغییرات حساس |
-| ⚙️ فعال/غیرفعال | مدیریت کامل سرویس‌ها با toggle دقیق |
-| 🧱 سخت‌سازی Kernel | تنظیمات sysctl برای امنیت شبکه و حافظه |
-
----
-
-## 🔧 پیش‌نیازها
-
-- **OS:** Linux (Ubuntu/Debian/CentOS/RHEL/Rocky/AlmaLinux/Fedora/Arch)
-- **دسترسی:** root یا sudo
-- **Shell:** Bash 4.0+
-- **اینترنت:** برای نصب پکیج‌ها
+* [Features](#features)
+* [Requirements](#requirements)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Modules & Menus](#modules--menus)
+* [Port Whitelist](#port-whitelist)
+* [File Structure](#file-structure)
+* [Security Notes](#security-notes)
+* [Distribution Support](#distribution-support)
+* [Logs](#logs)
+* [Contributing](#contributing)
+* [License](#license)
 
 ---
 
-## 🚀 نصب و راه‌اندازی
+## ✨ Features
 
-### روش ۱: کلون مستقیم
+| Feature               | Description                                                       |
+| --------------------- | ----------------------------------------------------------------- |
+| 🔄 Full System Update | Automatically updates all packages and the distribution           |
+| 🔍 Server Scanner     | Detects installed services and active ports                       |
+| 🔌 Port Whitelist     | Scans active ports and automatically creates a whitelist          |
+| 🔥 Smart Firewall     | Configures UFW based on active ports and the whitelist            |
+| 🛡️ SSH Hardening     | Disables root login and limits authentication attempts            |
+| 🚫 Fail2Ban           | Automatically installs and configures Fail2Ban to block attacks   |
+| 🦠 ClamAV             | Antivirus with automatic daily scanning                           |
+| 📊 Auditd             | Security logging for sensitive system changes                     |
+| ⚙️ Service Management | Enable or disable supported services with dedicated controls      |
+| 🧱 Kernel Hardening   | Security-focused `sysctl` configuration for networking and memory |
+
+---
+
+## 🔧 Requirements
+
+* **OS:** Linux (Ubuntu/Debian/CentOS/RHEL/Rocky/AlmaLinux/Fedora/Arch)
+* **Access:** Root or sudo privileges
+* **Shell:** Bash 4.0+
+* **Internet:** Required for installing packages
+
+---
+
+## 🚀 Installation
+
+### Method 1: Clone the Repository
 
 ```bash
 git clone https://github.com/GuardianSetup/server-setup.git
@@ -55,7 +61,7 @@ chmod +x setup.sh
 sudo ./setup.sh
 ```
 
-### روش ۲: دانلود مستقیم
+### Method 2: Direct Download
 
 ```bash
 curl -O https://raw.githubusercontent.com/GuardianSetup/server-setup/main/setup.sh
@@ -63,9 +69,9 @@ chmod +x setup.sh
 sudo ./setup.sh
 ```
 
-### اجرا بعد از هر ریست سرور
+### Running After a Server Reboot
 
-برای اجرای خودکار بعد از ریست (اختیاری)، می‌توانید یک alias تعریف کنید:
+If you want to make the script easier to run after every reboot, you can optionally create an alias:
 
 ```bash
 echo "alias server-setup='sudo /path/to/server-setup/setup.sh'" >> ~/.bashrc
@@ -74,120 +80,140 @@ source ~/.bashrc
 
 ---
 
-## 📖 نحوه استفاده
+## 📖 Usage
 
-اسکریپت را با دسترسی root اجرا کنید:
+Run the script with root or sudo privileges:
 
 ```bash
 sudo ./setup.sh
 ```
 
-پس از اجرا، منوی اصلی نمایش داده می‌شود:
+After launching, the main menu will be displayed:
 
-```
-══════ منوی اصلی - Main Menu ══════
+```text
+══════ Main Menu ══════
 
-  1) 🔄  اجرای کامل (آپدیت + امنیت)
-  2) 📦  آپدیت سیستم
-  3) 🛡️   تنظیمات امنیتی
-  4) 🔍  اسکن سرور (چه نصب است؟)
-  5) 🔥  مدیریت فایروال (UFW)
-  6) ✅  فعال‌سازی سرویس‌ها
-  7) ❌  غیرفعال‌سازی سرویس‌ها
-  8) 📋  نمایش وضعیت سرور
-  9) 📝  مشاهده لاگ‌ها
-  0) 🚪  خروج
-```
-
----
-
-## 📦 ماژول‌ها و منوها
-
-### ۱. اجرای کامل
-اجرای ترتیبی همه مراحل: آپدیت سیستم ← سخت‌سازی امنیتی ← تنظیم فایروال هوشمند. ایده‌آل برای اجرا بعد از هر ریست سرور.
-
----
-
-### ۲. آپدیت سیستم
-- آپدیت لیست پکیج‌ها
-- ارتقاء تمام پکیج‌های نصب‌شده
-- dist-upgrade (ارتقاء توزیع)
-- پاکسازی پکیج‌های اضافه
-
-**توزیع‌های پشتیبانی‌شده:** Ubuntu/Debian (apt)، CentOS/RHEL/Rocky (yum/dnf)، Arch (pacman)
-
----
-
-### ۳. تنظیمات امنیتی
-
-| گزینه | توضیح |
-|-------|--------|
-| سخت‌سازی SSH | غیرفعال‌سازی root login، حداکثر ۳ تلاش، timeout |
-| Fail2Ban | مسدودسازی خودکار IP های مشکوک |
-| ClamAV | آنتی‌ویروس + اسکن روزانه `/home` و `/tmp` |
-| Auditd | لاگ تغییرات sudoers، SSH، cron، کاربران |
-| آپدیت خودکار | دریافت خودکار پچ‌های امنیتی |
-| سخت‌سازی Kernel | ASLR، SYN cookies، غیرفعال کردن ICMP redirect |
-
----
-
-### ۴. اسکن سرور 🔍
-
-این ماژول به صورت خودکار تشخیص می‌دهد روی سرور چه چیزی نصب و فعال است:
-
-- **سرویس‌های نصب‌شده:** Nginx، Apache، MySQL، PostgreSQL، MongoDB، Redis، Docker و...
-- **پورت‌های فعال:** اسکن کامل با `ss` یا `netstat`
-- **وایت‌لیست:** مقایسه پورت‌های فعال با وایت‌لیست موجود
-- **وضعیت دیسک و رم**
-- **پروسه‌های پرمصرف**
-
----
-
-### ۵. مدیریت فایروال (UFW)
-
-```
-1) تنظیم هوشمند فایروال  ← اسکن پورت‌ها + وایت‌لیست → UFW
-2) باز کردن پورت          ← add to UFW + whitelist
-3) بستن پورت              ← remove from UFW + whitelist
-4) نمایش وضعیت UFW
-5) فعال کردن UFW
-6) غیرفعال کردن UFW
-7) مدیریت وایت‌لیست
+  1) 🔄  Full Run (Update + Security)
+  2) 📦  System Update
+  3) 🛡️   Security Configuration
+  4) 🔍  Server Scan (What's Installed?)
+  5) 🔥  Firewall Management (UFW)
+  6) ✅  Enable Services
+  7) ❌  Disable Services
+  8) 📋  Show Server Status
+  9) 📝  View Logs
+  0) 🚪  Exit
 ```
 
-> **نکته:** پورت ۲۲ (SSH) همیشه باید در وایت‌لیست باشد تا دسترسی قطع نشود.
+---
+
+## 📦 Modules & Menus
+
+### 1. Full Run
+
+Runs all major steps sequentially:
+
+**System Update → Security Hardening → Smart Firewall Configuration**
+
+This is particularly useful for performing a complete server setup after a fresh installation or reboot.
 
 ---
 
-### ۶ و ۷. فعال‌سازی / غیرفعال‌سازی سرویس‌ها
+### 2. System Update
 
-هر سرویسی که می‌توان **فعال** کرد، یک معادل **غیرفعال** در منوی مربوطه دارد:
+The system update module performs:
 
-| سرویس | فعال | غیرفعال |
-|-------|------|---------|
-| Nginx | منو ۶ → گزینه ۱ | منو ۷ → گزینه ۱ |
-| Apache | منو ۶ → گزینه ۲ | منو ۷ → گزینه ۲ |
-| MySQL/MariaDB | منو ۶ → گزینه ۳ | منو ۷ → گزینه ۳ |
-| PostgreSQL | منو ۶ → گزینه ۴ | منو ۷ → گزینه ۴ |
-| MongoDB | منو ۶ → گزینه ۵ | منو ۷ → گزینه ۵ |
-| Redis | منو ۶ → گزینه ۶ | منو ۷ → گزینه ۶ |
-| RabbitMQ | منو ۶ → گزینه ۷ | منو ۷ → گزینه ۷ |
-| Docker | منو ۶ → گزینه ۸ | منو ۷ → گزینه ۸ |
-| Fail2Ban | منو ۶ → گزینه ۹ | منو ۷ → گزینه ۹ |
-| UFW | منو ۶ → گزینه ۱۰ | منو ۷ → گزینه ۱۰ |
-| Auditd | منو ۶ → گزینه ۱۳ | منو ۷ → گزینه ۱۲ |
-| ClamAV | منو ۶ → گزینه ۱۴ | منو ۷ → گزینه ۱۳ |
+* Package list updates
+* Upgrade of all installed packages
+* `dist-upgrade`
+* Removal of unnecessary packages
 
-> ⚠️ **SSH:** غیرفعال کردن SSH نیاز به تأیید `YES` دارد تا از قطع تصادفی دسترسی جلوگیری شود.
+**Supported package managers:**
+
+* Ubuntu/Debian → `apt`
+* CentOS/RHEL/Rocky → `yum` / `dnf`
+* Arch → `pacman`
 
 ---
 
-## 🔌 وایت‌لیست پورت‌ها
+### 3. Security Configuration
 
-فایل وایت‌لیست در `config/port_whitelist.conf` قرار دارد:
+| Option            | Description                                                                |
+| ----------------- | -------------------------------------------------------------------------- |
+| SSH Hardening     | Disables root login, limits attempts to 3, and configures timeout settings |
+| Fail2Ban          | Automatically blocks suspicious IP addresses                               |
+| ClamAV            | Antivirus with daily scans of `/home` and `/tmp`                           |
+| Auditd            | Logs changes to sudoers, SSH, cron, and user accounts                      |
+| Automatic Updates | Automatically installs security patches                                    |
+| Kernel Hardening  | Enables ASLR and SYN cookies and disables ICMP redirects                   |
 
+---
+
+### 4. Server Scanner 🔍
+
+The server scanner automatically detects what is installed and active on the server.
+
+It checks:
+
+* **Installed Services:** Nginx, Apache, MySQL, PostgreSQL, MongoDB, Redis, Docker, and more
+* **Active Ports:** Full scan using `ss` or `netstat`
+* **Whitelist Status:** Compares active ports against the configured whitelist
+* **Disk & RAM Usage**
+* **High-Resource Processes**
+
+---
+
+### 5. Firewall Management (UFW)
+
+```text
+1) Configure Smart Firewall   ← Scan Ports + Whitelist → UFW
+2) Open Port                  ← Add to UFW + Whitelist
+3) Close Port                 ← Remove from UFW + Whitelist
+4) Show UFW Status
+5) Enable UFW
+6) Disable UFW
+7) Manage Whitelist
 ```
-# SSH - ضروری (هرگز حذف نکنید!)
+
+> ⚠️ **Important:** Port `22` (SSH) should always remain in the whitelist unless you have another confirmed way to access the server.
+
+---
+
+### 6 & 7. Enable / Disable Services
+
+Every service that can be enabled has a corresponding disable option.
+
+| Service       | Enable             | Disable            |
+| ------------- | ------------------ | ------------------ |
+| Nginx         | Menu 6 → Option 1  | Menu 7 → Option 1  |
+| Apache        | Menu 6 → Option 2  | Menu 7 → Option 2  |
+| MySQL/MariaDB | Menu 6 → Option 3  | Menu 7 → Option 3  |
+| PostgreSQL    | Menu 6 → Option 4  | Menu 7 → Option 4  |
+| MongoDB       | Menu 6 → Option 5  | Menu 7 → Option 5  |
+| Redis         | Menu 6 → Option 6  | Menu 7 → Option 6  |
+| RabbitMQ      | Menu 6 → Option 7  | Menu 7 → Option 7  |
+| Docker        | Menu 6 → Option 8  | Menu 7 → Option 8  |
+| Fail2Ban      | Menu 6 → Option 9  | Menu 7 → Option 9  |
+| UFW           | Menu 6 → Option 10 | Menu 7 → Option 10 |
+| Auditd        | Menu 6 → Option 13 | Menu 7 → Option 12 |
+| ClamAV        | Menu 6 → Option 14 | Menu 7 → Option 13 |
+
+> ⚠️ **SSH:** Disabling SSH requires explicit `YES` confirmation to prevent accidental loss of server access.
+
+---
+
+## 🔌 Port Whitelist
+
+The port whitelist is stored in:
+
+```text
+config/port_whitelist.conf
+```
+
+Example:
+
+```text
+# SSH - Required (Never Remove!)
 22
 
 # HTTP / HTTPS
@@ -195,100 +221,135 @@ sudo ./setup.sh
 443
 ```
 
-**منطق وایت‌لیست:**
+### Whitelist Logic
 
-```
-اسکن پورت‌های فعال
+```text
+Scan Active Ports
         ↓
-مقایسه با وایت‌لیست
+Compare Against Whitelist
         ↓
     ┌───────────────────┬────────────────────┐
-    │ در وایت‌لیست است  │ در وایت‌لیست نیست  │
-    │  ✅ تأیید شده      │  ⚠️ بررسی لازم دارد │
+    │ In Whitelist      │ Not In Whitelist   │
+    │      ✅ Approved  │ ⚠️ Review Required │
     └───────────────────┴────────────────────┘
         ↓
-انتخاب: اضافه کردن به وایت‌لیست یا مدیریت دستی
+Add to Whitelist or Manage Manually
 ```
 
 ---
 
-## 📁 ساختار فایل‌ها
+## 📁 File Structure
 
-```
+```text
 server-setup/
-├── setup.sh                    # اسکریپت اصلی
-├── README.md                   # این فایل راهنما
+├── setup.sh                    # Main script
+├── README.md                   # Documentation
 ├── config/
-│   ├── port_whitelist.conf     # وایت‌لیست پورت‌ها
-│   └── state.conf              # وضعیت تنظیمات (auto-generated)
+│   ├── port_whitelist.conf     # Port whitelist
+│   └── state.conf              # Configuration state (auto-generated)
 ├── logs/
-│   └── setup_YYYYMMDD_HH.log  # لاگ هر اجرا
+│   └── setup_YYYYMMDD_HH.log  # Execution logs
 └── .github/
     └── workflows/
-        └── lint.yml            # بررسی خودکار با ShellCheck
+        └── lint.yml            # Automated ShellCheck validation
 ```
 
 ---
 
-## 🔒 نکات امنیتی مهم
+## 🔒 Important Security Notes
 
-### ⚠️ قبل از اجرا بخوانید:
+### ⚠️ Read Before Running
 
-1. **SSH را ببندید نه!** پورت ۲۲ را از وایت‌لیست حذف نکنید مگر اینکه یک راه دسترسی جایگزین داشته باشید.
+1. **Do not close SSH accidentally!**
+   Do not remove port `22` from the whitelist unless you have an alternative confirmed access method.
 
-2. **بکاپ کانفیگ SSH:** اسکریپت خودکار بکاپ می‌گیرد (`/etc/ssh/sshd_config.backup_DATE`)
+2. **SSH Configuration Backup**
+   The script automatically creates a backup:
 
-3. **root login:** سخت‌سازی SSH لاگین مستقیم root را غیرفعال می‌کند. مطمئن شوید یک کاربر sudo دارید.
+   ```text
+   /etc/ssh/sshd_config.backup_DATE
+   ```
 
-4. **فایروال هوشمند:** قبل از فعال کردن UFW، مطمئن شوید پورت SSH در وایت‌لیست است.
+3. **Root Login**
+   SSH hardening disables direct root login. Make sure you have a sudo-enabled user before applying this configuration.
 
-5. **تست قبل از production:** ابتدا روی یک سرور تست اجرا کنید.
+4. **Smart Firewall**
+   Before enabling UFW, make sure the SSH port is included in the whitelist.
 
----
-
-## 🐧 پشتیبانی توزیع‌ها
-
-| توزیع | آپدیت | پکیج‌ها | تست‌شده |
-|-------|-------|---------|---------|
-| Ubuntu 20.04+ | ✅ | ✅ | ✅ |
-| Debian 11+ | ✅ | ✅ | ✅ |
-| CentOS 7/8 | ✅ | ✅ | ✅ |
-| Rocky Linux 8/9 | ✅ | ✅ | ✅ |
-| AlmaLinux 8/9 | ✅ | ✅ | ✅ |
-| Fedora 36+ | ✅ | ✅ | ⚠️ |
-| Arch Linux | ✅ | ⚠️ | ⚠️ |
+5. **Test Before Production**
+   Always test the script on a non-production server before deploying it to a production environment.
 
 ---
 
-## 📝 لاگ‌ها
+## 🐧 Distribution Support
 
-هر اجرا یک فایل لاگ جداگانه در `logs/` می‌سازد:
+| Distribution    | Updates | Packages | Tested |
+| --------------- | ------- | -------- | ------ |
+| Ubuntu 20.04+   | ✅       | ✅        | ✅      |
+| Debian 11+      | ✅       | ✅        | ✅      |
+| CentOS 7/8      | ✅       | ✅        | ✅      |
+| Rocky Linux 8/9 | ✅       | ✅        | ✅      |
+| AlmaLinux 8/9   | ✅       | ✅        | ✅      |
+| Fedora 36+      | ✅       | ✅        | ⚠️     |
+| Arch Linux      | ✅       | ⚠️       | ⚠️     |
 
-```
+> 🚧 **Compatibility is still being improved as the project is under active development.**
+
+---
+
+## 📝 Logs
+
+Each execution creates a separate log file inside the `logs/` directory:
+
+```text
 logs/setup_20250525_143022.log
 ```
 
-برای مشاهده لاگ آخر:
+### View the Latest Log
+
 ```bash
 tail -f logs/$(ls -t logs/ | head -1)
 ```
 
 ---
 
-## 🤝 مشارکت
+## 🤝 Contributing
 
-این یک اسکریپت شخصی است اما پیشنهادات خوش‌آمد هستند:
+This is currently a personal project, but suggestions and contributions are welcome.
 
-1. Fork کنید
-2. Branch جدید بسازید (`git checkout -b feature/my-feature`)
-3. تغییرات را commit کنید (`git commit -m 'Add: ویژگی جدید'`)
-4. Push کنید (`git push origin feature/my-feature`)
-5. Pull Request باز کنید
+1. Fork the repository
+2. Create a new branch:
+
+```bash
+git checkout -b feature/my-feature
+```
+
+3. Commit your changes:
+
+```bash
+git commit -m "Add: my feature"
+```
+
+4. Push your branch:
+
+```bash
+git push origin feature/my-feature
+```
+
+5. Open a Pull Request
 
 ---
 
-## 📜 لایسنس
+## 🚧 Project Status
 
-MIT License - استفاده آزاد با ذکر منبع
+**Active Development**
+
+This project is currently under active development. New features, improvements, security enhancements, bug fixes, and additional Linux distribution support may be added over time.
+
+The current implementation should be considered a work in progress. Always review the script and test it in a safe environment before using it on production servers.
 
 ---
+
+## 📜 License
+
+**MIT License** — Free to use with attribution.
